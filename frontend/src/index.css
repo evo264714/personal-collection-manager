@@ -1,0 +1,103 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@400&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-color: white;
+  --text-color: black;
+  --primary-color: #3b82f6;
+  --primary-hover-color: #2563eb;
+  --card-bg-color: #f3f4f6;
+  --card-text-color: black;
+}
+
+.dark {
+  --bg-color: #1f2937;
+  --text-color: #d1d5db;
+  --primary-color: #3b82f6;
+  --primary-hover-color: #2563eb;
+  --card-bg-color: #374151;
+  --card-text-color: #e5e7eb;
+}
+
+body {
+  font-family: 'Kanit', sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+.bg-primary {
+  background-color: var(--primary-color);
+}
+
+.bg-primary-hover:hover {
+  background-color: var(--primary-hover-color);
+}
+
+.card {
+  background-color: var(--card-bg-color);
+  color: var(--card-text-color);
+} */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@400&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-color: white;
+  --text-color: black;
+  --primary-color: #3b82f6;
+  --primary-hover-color: #2563eb;
+  --card-bg-color: #f3f4f6;
+  --card-text-color: black;
+}
+
+.dark {
+  --bg-color: #1f2937;
+  --text-color: #ffffff;
+  --primary-color: #3b82f6;
+  --primary-hover-color: #2563eb;
+  --card-bg-color: #374151;
+  --card-text-color: #e5e7eb;
+}
+
+body {
+  font-family: 'Kanit', sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+.bg-primary {
+  background-color: var(--primary-color);
+}
+
+.bg-primary-hover:hover {
+  background-color: var(--primary-hover-color);
+}
+
+.card {
+  background-color: var(--card-bg-color);
+  color: var(--card-text-color);
+}
