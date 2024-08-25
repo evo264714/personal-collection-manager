@@ -17,6 +17,7 @@ import MyCollections from "./components/MyCollections";
 import Home from "./pages/Home";
 import { monitorAuthState } from "./firebase";
 import ProtectedAdminRoute from "./Routes/ProtectedAdminRoute ";
+import ItemDetails from "./components/ItemDetails";
 
 function App() {
   useEffect(() => {
@@ -32,6 +33,9 @@ function App() {
           <Route path="/collections" element={<CollectionList />} />
           <Route path="/collections/new" element={<CollectionForm />} />
           <Route path="/collections/:id" element={<CollectionDetails />} />
+          
+          <Route path="/collections/:collectionId/items/:itemId" element={<ItemDetails />} />
+
           <Route path="/collections/:id/items/new" element={<ItemForm />} />
           <Route
             path="/collections/:id/edit"

@@ -3,7 +3,13 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import axios from "../api/axios";
 import Swal from "sweetalert2";
 import { useAuth } from "../context/AuthContext";
-import { FaHeart, FaRegHeart, FaComment, FaInfoCircle } from "react-icons/fa";
+import {
+  FaHeart,
+  FaRegHeart,
+  FaComment,
+  FaEdit,
+  FaTrash,
+} from "react-icons/fa";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "../context/ThemeContext";
 
@@ -12,9 +18,9 @@ const CollectionDetails = () => {
   const { id } = useParams();
   const [collection, setCollection] = useState(null);
   const [error, setError] = useState(null);
-  const navigate = useNavigate();
   const { currentUser } = useAuth();
   const { theme } = useTheme();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCollection = async () => {
@@ -103,6 +109,14 @@ const CollectionDetails = () => {
     }
   };
 
+  if (error) {
+    return <div className="text-red-500">{error}</div>;
+  }
+
+  if (!collection) {
+    return <div>{t("loading")}</div>;
+  }
+
   const handleComment = async (itemId) => {
     if (!currentUser) {
       Swal.fire({
@@ -157,54 +171,6 @@ const CollectionDetails = () => {
     }
   };
 
-  const handleDetails = (item) => {
-    const themeClass =
-      theme === "dark" ? "bg-gray-800 text-white" : "bg-white text-gray-900";
-
-    Swal.fire({
-      title: item.name,
-      html: `
-        <div class="${themeClass} p-4 rounded-lg shadow-lg">
-          <img src="${item.imageURL}" alt="${
-        item.name
-      }" class="w-full h-64 object-cover mb-4 rounded-lg" />
-          <div class="text-left">
-            ${item.customFields
-              .map(
-                (field) =>
-                  `<p><strong>${field.name}:</strong> ${field.value}</p>`
-              )
-              .join("")}
-            <hr class="my-4" />
-            <h4>${t("comments")}</h4>
-            ${item.comments
-              .map(
-                (comment) =>
-                  `<p class="bg-black p-2 rounded my-2">${comment.comment}</p>`
-              )
-              .join("")}
-            <hr class="my-4" />
-            <h4>${t("likes")}: ${item.likes.length}</h4>
-          </div>
-        </div>
-      `,
-      showCancelButton: true,
-      showConfirmButton: false,
-      cancelButtonText: t("close"),
-      width: "80%",
-      customClass: {
-        popup: `${themeClass}`,
-      },
-    });
-  };
-  if (error) {
-    return <div className="text-red-500">{error}</div>;
-  }
-
-  if (!collection) {
-    return <div>{t("loading")}</div>;
-  }
-
   const isOwnerOrAdmin =
     currentUser &&
     (currentUser.uid === collection.userId || currentUser.role === "admin");
@@ -256,7 +222,7 @@ const CollectionDetails = () => {
                 theme === "dark" ? "text-gray-400" : "text-gray-700"
               }`}
             >
-              <span className="font-semibold">{field.name}</span> {field.value}
+              <span className="font-semibold">{field.name}</span>: {field.value}
             </p>
           ))}
       </div>
@@ -302,30 +268,8 @@ const CollectionDetails = () => {
                 ))}
             </div>
             <div className="flex justify-between items-center mt-4">
-              <button
-                onClick={() => handleLike(item._id)}
-                className={`flex items-center ${
-                  theme === "dark" ? "text-white" : "text-gray-900"
-                }`}
-              >
-                {currentUser && item.likes.includes(currentUser.uid) ? (
-                  <FaHeart className="text-red-500" />
-                ) : (
-                  <FaRegHeart />
-                )}
-                <span className="ml-2">{item.likes.length}</span>
-              </button>
-              <button
-                onClick={() => handleComment(item._id)}
-                className={`flex items-center ${
-                  theme === "dark" ? "text-white" : "text-gray-900"
-                }`}
-              >
-                <FaComment className="mr-2" />
-                <span>{item.comments.length}</span>
-              </button>
-              <button
-                onClick={() => handleDetails(item)}
+              <Link
+                to={`/collections/${id}/items/${item._id}`}
                 className={`py-2 px-4 rounded hover:bg-blue-600 transition duration-300 ${
                   theme === "dark"
                     ? "bg-blue-500 text-white"
@@ -333,6 +277,26 @@ const CollectionDetails = () => {
                 }`}
               >
                 {t("details")}
+              </Link>
+              <button
+                onClick={() => handleLike(item._id)}
+                className="flex items-center text-red-500"
+              >
+                {item.likes.includes(currentUser?.uid) ? (
+                  <FaHeart />
+                ) : (
+                  <FaRegHeart />
+                )}
+                <span className="ml-2">{item.likes.length}</span>
+              </button>
+              <button
+                onClick={() => handleComment(item._id)}
+                className={`ml-4 flex items-center ${
+                  theme === "dark" ? "text-white" : "text-gray-900"
+                }`}
+              >
+                <FaComment className="mr-2" />
+                <span>{item.comments.length}</span>
               </button>
               {isOwnerOrAdmin && (
                 <>
@@ -344,7 +308,7 @@ const CollectionDetails = () => {
                         : "bg-green-500 text-white"
                     }`}
                   >
-                    {t("edit")}
+                    <FaEdit />
                   </Link>
                   <button
                     onClick={() => handleDeleteItem(item._id)}
@@ -354,7 +318,7 @@ const CollectionDetails = () => {
                         : "bg-red-500 text-white"
                     }`}
                   >
-                    {t("delete")}
+                    <FaTrash />
                   </button>
                 </>
               )}

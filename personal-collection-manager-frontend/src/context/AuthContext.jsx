@@ -94,13 +94,18 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const logout = () => {
-    signOut(auth);
-    setCurrentUser(null);
-    localStorage.removeItem("currentUser");
-    window.location.href = "/login";
+  const logout = async () => {
+    try {
+      await signOut(auth); // Wait for signOut to complete
+      setCurrentUser(null); // Clear current user state
+      localStorage.removeItem("currentUser"); // Remove user from local storage
+      window.location.href = "/login"; // Redirect to login page
+    } catch (error) {
+      console.error("Failed to sign out:", error);
+      Swal.fire("Error", "Failed to sign out. Please try again.", "error");
+    }
   };
-
+  
   const value = {
     currentUser,
     register,

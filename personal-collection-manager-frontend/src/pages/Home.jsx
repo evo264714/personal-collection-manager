@@ -31,7 +31,7 @@ const Home = () => {
 
     fetchRecentItems();
 
-    const socket = io("http://localhost:5000");
+    const socket = io("https://personal-collection-manager-backend.onrender.com/");
 
     socket.on("newItem", (newItem) => {
       setRecentItems((prevItems) => [newItem, ...prevItems.slice(0, 4)]);

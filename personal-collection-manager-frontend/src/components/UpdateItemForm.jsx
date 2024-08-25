@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "../api/axios";
 import Swal from "sweetalert2";
 import { useAuth } from "../context/AuthContext";
+import { useTheme } from "../context/ThemeContext";
 
 const UpdateItemForm = () => {
   const { collectionId, itemId } = useParams();
@@ -10,6 +11,7 @@ const UpdateItemForm = () => {
   const [name, setName] = useState("");
   const [imageURL, setImageURL] = useState("");
   const [customFields, setCustomFields] = useState({});
+  const { theme } = useTheme();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -73,39 +75,57 @@ const UpdateItemForm = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-6 text-center text-gray-700">
-          Edit Item
-        </h2>
+    <div
+      className={`min-h-screen flex items-center justify-center ${
+        theme === "dark" ? "bg-gray-900" : "bg-gray-100"
+      }`}
+    >
+      <div
+        className={`p-8 rounded-lg shadow-md w-full max-w-md ${
+          theme === "dark" ? "bg-gray-800 text-white" : "bg-white text-gray-900"
+        }`}
+      >
+        <h2 className="text-2xl font-bold mb-6 text-center">Edit Item</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label className="block text-gray-700">Name</label>
+            <label className="block">Name</label>
             <input
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
-              className="mt-1 p-2 w-full border rounded-lg focus:ring focus:ring-blue-200"
+              className={`mt-1 p-2 w-full border rounded-lg focus:ring ${
+                theme === "dark"
+                  ? "focus:ring-blue-600 border-gray-700 bg-gray-700"
+                  : "focus:ring-blue-200"
+              }`}
             />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700">Image URL</label>
+            <label className="block">Image URL</label>
             <input
               type="text"
               value={imageURL}
               onChange={(e) => setImageURL(e.target.value)}
-              className="mt-1 p-2 w-full border rounded-lg focus:ring focus:ring-blue-200"
+              className={`mt-1 p-2 w-full border rounded-lg focus:ring ${
+                theme === "dark"
+                  ? "focus:ring-blue-600 border-gray-700 bg-gray-700"
+                  : "focus:ring-blue-200"
+              }`}
             />
           </div>
           {Object.keys(customFields).map((field) => (
             <div key={field} className="mb-4">
-              <label className="block text-gray-700">{field}</label>
+              <label className="block">{field}</label>
               <input
                 type="text"
                 value={customFields[field]}
                 onChange={(e) => handleCustomFieldChange(field, e.target.value)}
-                className="mt-1 p-2 w-full border rounded-lg focus:ring focus:ring-blue-200"
+                className={`mt-1 p-2 w-full border rounded-lg focus:ring ${
+                  theme === "dark"
+                    ? "focus:ring-blue-600 border-gray-700 bg-gray-700"
+                    : "focus:ring-blue-200"
+                }`}
               />
             </div>
           ))}

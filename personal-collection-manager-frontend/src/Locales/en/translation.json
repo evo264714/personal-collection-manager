@@ -62,6 +62,12 @@
     "recently_added_items":"Recently Added Items",
     "from_collection":"From Collection",
     "top_collections": "Top Collections",
-    "item_count":"Items count"
+    "item_count":"Items count",
+    "make_admin": "Make Admin",
+    "user_promoted_to_admin":"User is promoted to an Admin",
+    "enter_search_term":"Enter Search Here",
+    "loading_recent_items":"Loading Recent Items",
+    "loading_top_collections":"Loading Top Collections",
+    "confirm_password":"Confirm Password"
   }
   
