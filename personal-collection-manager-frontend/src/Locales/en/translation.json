@@ -68,6 +68,9 @@
     "enter_search_term":"Enter Search Here",
     "loading_recent_items":"Loading Recent Items",
     "loading_top_collections":"Loading Top Collections",
-    "confirm_password":"Confirm Password"
+    "confirm_password":"Confirm Password",
+    "are_you_sure":"Are You Sure?",
+    "this_action_cannot_be_undone":"This action cannot be undone",
+    "yes_delete_it":"Yes delete it"
   }
   

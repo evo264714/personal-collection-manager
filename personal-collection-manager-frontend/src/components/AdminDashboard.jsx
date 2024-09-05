@@ -133,7 +133,6 @@ const AdminDashboard = () => {
   };
 
   const handleDeleteUser = async (id) => {
-    console.log("Deleting user with ID:", id);
     Swal.fire({
       title: t("are_you_sure"),
       text: t("this_action_cannot_be_undone"),

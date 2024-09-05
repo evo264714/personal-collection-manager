@@ -68,6 +68,9 @@
     "enter_search_term":"Ingresar Buscar",
     "loading_recent_items":"Cargando elementos recientes",
     "loading_top_collections":"Cargando las colecciones principales",
-    "confirm_password":"Confirmar Contraseña"
+    "confirm_password":"Confirmar Contraseña",
+    "are_you_sure":"Estas seguro?",
+    "this_action_cannot_be_undone":"Esta acción no se puede deshacer",
+    "yes_delete_it":"Sí, elimínalo"
   }
   
