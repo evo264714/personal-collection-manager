@@ -18,6 +18,7 @@ import Home from "./pages/Home";
 import { monitorAuthState } from "./firebase";
 import ProtectedAdminRoute from "./Routes/ProtectedAdminRoute ";
 import ItemDetails from "./components/ItemDetails";
+import Cart from "./components/Cart";
 
 function App() {
   useEffect(() => {
@@ -51,6 +52,7 @@ function App() {
             <Route path="/admin" element={<AdminDashboard />} />
           </Route>
           <Route path="/my-collections" element={<MyCollections />} />
+          <Route path="/cart" element={<Cart />} />
         </Routes>
       </AuthProvider>
     </ThemeProvider>

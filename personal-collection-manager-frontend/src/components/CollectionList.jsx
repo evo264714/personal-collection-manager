@@ -103,11 +103,14 @@ const CollectionList = () => {
                   >
                     {collection.name}
                   </Link>
-                  <p className="text-center overflow-hidden text-ellipsis whitespace-nowrap max-w-full">
+                  <p className="text-center overflow-hidden text-ellipsis whitespace-nowrap max-w-full">Description: 
                     {collection.description}
                   </p>
                   <p className="text-center">
                     {t("category")}: {collection.category}
+                  </p>
+                  <p className="text-center overflow-hidden text-ellipsis whitespace-nowrap max-w-full">Price: 
+                    {collection.price} BDT
                   </p>
                   {collection.customFields &&
                     collection.customFields.map((field, index) => (

@@ -9,6 +9,7 @@ const CollectionForm = () => {
   const { currentUser } = useAuth();
   const { theme } = useTheme();
   const [name, setName] = useState("");
+  const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
   const [imageURL, setImageURL] = useState("");
@@ -34,6 +35,7 @@ const CollectionForm = () => {
       name,
       description,
       category,
+      price,
       imageURL,
       customFields,
       userId: currentUser.uid,
@@ -104,6 +106,20 @@ const CollectionForm = () => {
             />
           </div>
           <div className="mb-4">
+            <label className="block">Price</label>
+            <input
+              type="text"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+              required
+              className={`mt-1 p-2 w-full border rounded-lg focus:ring ${
+                theme === "dark"
+                  ? "bg-gray-600 text-gray-200 border-gray-500"
+                  : "border-gray-300"
+              }`}
+            />
+          </div>
+          <div className="mb-4">
             <label className="block">Description</label>
             <textarea
               value={description}
@@ -129,9 +145,9 @@ const CollectionForm = () => {
               <option disabled value="">
                 Select a category
               </option>
-              <option value="Books">Books</option>
-              <option value="Coins">Coins</option>
-              <option value="Stamps">Stamps</option>
+              <option value="Fruits">Fruits</option>
+              <option value="Vegetables">Vegetables</option>
+              <option value="Meat">Meat</option>
               <option value="Other">Other</option>
             </select>
           </div>

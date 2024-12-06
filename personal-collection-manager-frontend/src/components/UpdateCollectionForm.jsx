@@ -8,6 +8,7 @@ const UpdateCollectionForm = () => {
   const { id } = useParams();
   const { currentUser } = useAuth();
   const [name, setName] = useState("");
+  const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
   const [imageURL, setImageURL] = useState("");
@@ -56,6 +57,7 @@ const UpdateCollectionForm = () => {
     e.preventDefault();
     const collection = {
       name,
+      price,
       description,
       category,
       imageURL,
@@ -122,6 +124,18 @@ const UpdateCollectionForm = () => {
           </div>
           <div className="mb-4">
             <label className="block text-gray-700 dark:text-gray-200">
+              Price
+            </label>
+            <input
+              type="text"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+              required
+              className="mt-1 p-2 w-full border rounded-lg focus:ring focus:ring-blue-200 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 dark:text-gray-200">
               Description
             </label>
             <textarea
@@ -139,9 +153,9 @@ const UpdateCollectionForm = () => {
               onChange={(e) => setCategory(e.target.value)}
               className="mt-1 p-2 w-full border rounded-lg focus:ring focus:ring-blue-200 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"
             >
-              <option value="Books">Books</option>
-              <option value="Coins">Coins</option>
-              <option value="Stamps">Stamps</option>
+              <option value="Fruits">Fruits</option>
+              <option value="Vegetables">Vegetables</option>
+              <option value="Meat">Meat</option>
               <option value="Other">Other</option>
             </select>
           </div>
