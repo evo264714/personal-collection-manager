@@ -19,6 +19,9 @@ import { monitorAuthState } from "./firebase";
 import ProtectedAdminRoute from "./Routes/ProtectedAdminRoute ";
 import ItemDetails from "./components/ItemDetails";
 import Cart from "./components/Cart";
+import PaymentSystem from "./components/PaymentSystem";
+import CheckoutForm from "./components/CheckoutForm";
+import PaymentHistory from "./components/PaymentHistory";
 
 function App() {
   useEffect(() => {
@@ -53,6 +56,9 @@ function App() {
           </Route>
           <Route path="/my-collections" element={<MyCollections />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/payment" element={<PaymentSystem />} />
+          <Route path="/checkout" element={<CheckoutForm />} />
+          <Route path="/payment-history" element={<PaymentHistory />} />
         </Routes>
       </AuthProvider>
     </ThemeProvider>

@@ -15,6 +15,7 @@ import {
   FaListAlt,
   FaSearch,
   FaShoppingCart,
+  FaHistory,
 } from "react-icons/fa";
 import axios from "../api/axios";
 
@@ -47,7 +48,6 @@ const Navbar = () => {
       window.removeEventListener("cartUpdated", fetchCartCount);
     };
   }, [currentUser]);
-  
 
   const handleLogout = async () => {
     try {
@@ -120,6 +120,15 @@ const Navbar = () => {
     }
   };
 
+  useEffect(() => {
+    const handleCartUpdate = () => fetchCartCount();
+
+    window.addEventListener("cartUpdated", handleCartUpdate);
+    return () => {
+      window.removeEventListener("cartUpdated", handleCartUpdate);
+    };
+  }, [currentUser]);
+
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);
   };
@@ -129,14 +138,18 @@ const Navbar = () => {
       <div className="container mx-auto flex justify-between items-center space-x-4">
         <Link
           to="/"
-          className="text-color text-2xl font-bold flex items-center hover:text-gray-300 transition duration-300"
+          className={`p-2  rounded-lg text-2xl font-bold shadow-lg shadow-green-700/100 flex items-center transition duration-300 transform hover:scale-105 ease-in-out ${
+            theme === "light"
+              ? "bg-slate-100 hover:bg-white hover:text-green-500 text-green-700 border border-gray-400"
+              : "bg-green-900 hover:bg-green-600 text-green-100 border border-gray-600"
+          }`}
         >
-          <FaHome className="mr-2" /> {t("E-Hut")}
+          <FaHome className="mr-2 " /> {t("E-Hut")}
         </Link>
         <div className="flex items-center space-x-6">
           <button
             onClick={toggleTheme}
-            className={`text-color py-2 px-4 rounded-lg transition duration-300 flex items-center ${
+            className={`text-color py-2 px-4 shadow-lg shadow-slate-700/100 rounded-full transition duration-300 flex items-center transform hover:scale-105 ease-in-out ${
               theme === "light"
                 ? "bg-gray-200 hover:bg-gray-300 text-gray-800 border border-gray-400"
                 : "bg-gray-700 hover:bg-gray-600 text-white border border-gray-600"
@@ -144,7 +157,7 @@ const Navbar = () => {
           >
             {theme === "light" ? (
               <>
-                <FaMoon className="mr-2" />
+                <FaMoon className="mr-2 " />
                 {t("dark_mode")}
               </>
             ) : (
@@ -158,7 +171,7 @@ const Navbar = () => {
           {currentUser && (
             <Link
               to="/my-collections"
-              className={`text-color py-2 px-4 rounded-lg transition duration-300 flex items-center ${
+              className={`text-color py-2 px-4 rounded-full shadow-lg shadow-blue-700/100 transition duration-300 flex items-center transform hover:scale-105 ease-in-out ${
                 theme === "light"
                   ? "bg-blue-100 hover:bg-blue-200 text-blue-700 border border-blue-300"
                   : "bg-blue-700 hover:bg-blue-600 text-white border border-blue-600"
@@ -170,7 +183,7 @@ const Navbar = () => {
 
           <button
             onClick={handleSearch}
-            className="bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 hover:from-purple-600 hover:via-pink-600 hover:to-red-600 text-white font-bold py-2 px-6 rounded-full shadow-lg transform hover:scale-105 transition duration-300 ease-in-out flex items-center"
+            className="bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 hover:from-purple-600 hover:via-pink-600 hover:to-red-600 text-white font-bold py-2 px-6 rounded-full shadow-lg shadow-red-700/100 transform hover:scale-105 transition duration-300 ease-in-out flex items-center"
           >
             <FaSearch className="mr-2" />
             {t("search")}
@@ -181,31 +194,39 @@ const Navbar = () => {
               {currentUser.role === "admin" && (
                 <Link
                   to="/admin"
-                  className="bg-gradient-to-r from-green-400 via-blue-500 to-purple-600 hover:from-green-500 hover:via-blue-600 hover:to-purple-700 text-white font-semibold py-2 px-6 rounded-full shadow-lg transform hover:scale-105 transition duration-300 ease-in-out flex items-center"
+                  className="bg-gradient-to-r from-green-400 via-blue-500 to-purple-600 hover:from-green-500 hover:via-blue-600 hover:to-purple-700 text-white font-semibold py-2 px-6 rounded-full shadow-lg shadow-blue-700/100 transform hover:scale-105 transition duration-300 ease-in-out flex items-center"
                 >
                   <FaUserShield className="mr-2" /> {t("admin_dashboard")}
                 </Link>
               )}
               <button
                 onClick={handleLogout}
-                className="text-white bg-gradient-to-r from-red-400 to-red-600 hover:from-red-500 hover:to-red-700 py-2 px-6 rounded-full shadow-lg transform hover:scale-105 transition duration-300 flex items-center"
+                className="text-white bg-gradient-to-r from-red-400 to-red-600 hover:from-red-500 hover:to-red-700 py-2 px-6 rounded-full shadow-lg shadow-red-800/100 transform hover:scale-105 transition duration-300 flex items-center"
               >
                 <FaSignOutAlt className="mr-2" /> {t("logout")}
               </button>
             </>
+          )}
+          {currentUser && (
+            <Link
+              to="/payment-history"
+              className="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 hover:from-purple-500 hover:via-pink-600 hover:to-red-600 text-white font-semibold py-2 px-6 rounded-full shadow-lg shadow-purple-700/100 transform hover:scale-105 transition duration-300 ease-in-out flex items-center"
+            >
+              <FaHistory className="mr-2" /> {t("History")}
+            </Link>
           )}
 
           {!currentUser && (
             <div className="flex items-center space-x-4">
               <Link
                 to="/login"
-                className="text-white bg-gradient-to-r from-green-400 to-green-600 hover:from-green-500 hover:to-green-700 py-2 px-6 rounded-full shadow-lg transform hover:scale-105 transition duration-300 flex items-center"
+                className="text-white bg-gradient-to-r from-green-400 to-green-600 hover:from-green-500 hover:to-green-700 py-2 px-6 rounded-full shadow-lg shadow-green-700/50 transform hover:scale-105 transition duration-300 flex items-center"
               >
                 <FaSignInAlt className="mr-2" /> {t("login")}
               </Link>
               <Link
                 to="/register"
-                className="text-white bg-gradient-to-r from-blue-400 to-blue-600 hover:from-blue-500 hover:to-blue-700 py-2 px-6 rounded-full shadow-lg transform hover:scale-105 transition duration-300 flex items-center"
+                className="text-white bg-gradient-to-r from-blue-400 to-blue-600 hover:from-blue-500 hover:to-blue-700 py-2 px-6 rounded-full shadow-lg shadow-blue-600/50 transform hover:scale-105 transition duration-300 flex items-center"
               >
                 <FaUserPlus className="mr-2" /> {t("register")}
               </Link>
@@ -215,7 +236,7 @@ const Navbar = () => {
         <div className="flex items-center space-x-2">
           <button
             onClick={() => changeLanguage("en")}
-            className={`text-color px-3 py-1 rounded-l-lg ${
+            className={`text-color px-3 py-1 rounded-l-full  ${
               i18n.language === "en" ? "bg-blue-500" : "bg-gray-500"
             } hover:bg-blue-600 transition duration-300`}
             disabled={i18n.language === "en"}
@@ -224,9 +245,9 @@ const Navbar = () => {
           </button>
           <button
             onClick={() => changeLanguage("es")}
-            className={`text-color px-3 py-1 rounded-r-lg ${
+            className={`text-color px-3 py-1 rounded-r-full  ${
               i18n.language === "es" ? "bg-blue-500" : "bg-gray-500"
-            } hover:bg-blue-600 transition duration-300`}
+            } hover:bg-blue-600 transition duration-300 `}
             disabled={i18n.language === "es"}
           >
             বাংলা
@@ -235,13 +256,14 @@ const Navbar = () => {
       </div>
       <Link
         to="/cart"
-        className="fixed top-20 right-4 bg-gradient-to-r from-yellow-400 to-yellow-600 hover:from-yellow-500 hover:to-yellow-700 text-white font-bold py-3 px-4 rounded-full shadow-lg transform hover:scale-105 transition duration-300 ease-in-out flex items-center z-50"
+        className={`fixed top-20 right-4  hover:bg-pink-300 hover:text-black text-white font-bold py-3 px-4 rounded-full shadow-lg shadow-pink-800/100 transform hover:scale-105 transition duration-300 ease-in-out flex items-center z-50 ${
+          theme === "dark" ? "bg-pink-500 text-white" : "bg-pink-500 text-white"
+        } flex items-center`}
       >
         <FaShoppingCart className="mr-2 text-4xl" />
-        {cartCount > 0 && (
-          <span className="ml-2 text-xl">{cartCount}</span>
-        )}
+        {cartCount > 0 && <span className="ml-2 text-xl">{cartCount}</span>}
       </Link>
+
       {searchResults.length > 0 && (
         <div className="search-results mt-4 p-4">
           <h3 className="text-xl font-bold mb-2">{t("search_results")}</h3>

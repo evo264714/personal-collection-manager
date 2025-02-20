@@ -9,7 +9,7 @@ const CollectionForm = () => {
   const { currentUser } = useAuth();
   const { theme } = useTheme();
   const [name, setName] = useState("");
-  const [price, setPrice] = useState("");
+  // const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
   const [imageURL, setImageURL] = useState("");
@@ -35,7 +35,7 @@ const CollectionForm = () => {
       name,
       description,
       category,
-      price,
+      // price,
       imageURL,
       customFields,
       userId: currentUser.uid,
@@ -105,7 +105,7 @@ const CollectionForm = () => {
               }`}
             />
           </div>
-          <div className="mb-4">
+          {/* <div className="mb-4">
             <label className="block">Price</label>
             <input
               type="text"
@@ -118,7 +118,7 @@ const CollectionForm = () => {
                   : "border-gray-300"
               }`}
             />
-          </div>
+          </div> */}
           <div className="mb-4">
             <label className="block">Description</label>
             <textarea

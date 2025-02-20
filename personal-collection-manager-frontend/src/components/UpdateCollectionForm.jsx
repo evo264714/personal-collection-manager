@@ -3,6 +3,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "../api/axios";
 import Swal from "sweetalert2";
 import { useAuth } from "../context/AuthContext";
+import { FaTimes } from 'react-icons/fa';
+
 
 const UpdateCollectionForm = () => {
   const { id } = useParams();
@@ -103,6 +105,12 @@ const UpdateCollectionForm = () => {
     }
   };
 
+  const handleRemoveCustomField = (index) => {
+    const updatedFields = [...customFields];
+    updatedFields.splice(index, 1); // Remove the field at the given index
+    setCustomFields(updatedFields); // Update the state
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-800">
       <div className="bg-white dark:bg-gray-900 p-8 rounded-lg shadow-md w-full max-w-md">
@@ -122,18 +130,7 @@ const UpdateCollectionForm = () => {
               className="mt-1 p-2 w-full border rounded-lg focus:ring focus:ring-blue-200 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"
             />
           </div>
-          <div className="mb-4">
-            <label className="block text-gray-700 dark:text-gray-200">
-              Price
-            </label>
-            <input
-              type="text"
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
-              required
-              className="mt-1 p-2 w-full border rounded-lg focus:ring focus:ring-blue-200 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"
-            />
-          </div>
+
           <div className="mb-4">
             <label className="block text-gray-700 dark:text-gray-200">
               Description
@@ -170,7 +167,7 @@ const UpdateCollectionForm = () => {
               className="mt-1 p-2 w-full border rounded-lg focus:ring focus:ring-blue-200 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"
             />
           </div>
-          <div className="mb-4">
+          {/* <div className="mb-4">
             <label className="block text-gray-700 dark:text-gray-200">
               Custom Fields
             </label>
@@ -189,7 +186,39 @@ const UpdateCollectionForm = () => {
                 />
               </div>
             ))}
+          </div> */}
+
+          <div className="mb-4">
+            <label className="block text-gray-700 dark:text-gray-200">
+              Custom Fields
+            </label>
+            {customFields.map((field, index) => (
+              <div key={index} className="relative mb-4">
+                <label className="block text-gray-700 dark:text-gray-200">
+                  {field.name} ({field.type})
+                </label>
+
+                <input
+                  type="text"
+                  value={field.name}
+                  onChange={(e) =>
+                    handleCustomFieldNameChange(index, e.target.value)
+                  }
+                  className="mt-1 p-2 w-full border rounded-lg focus:ring focus:ring-blue-200 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"
+                />
+
+                {/* React icon for the red cross button */}
+                <button
+                  onClick={() => handleRemoveCustomField(index)}
+                  className="absolute top-0 right-0 p-1 bg-red-500 text-white rounded-full hover:bg-red-600 focus:outline-none"
+                  style={{ transform: "translate(25%, -25%)" }} // Adjust the button position
+                >
+                  <FaTimes />
+                </button>
+              </div>
+            ))}
           </div>
+
           <div className="mb-4">
             <label className="block text-gray-700 dark:text-gray-200">
               Add New Custom Field

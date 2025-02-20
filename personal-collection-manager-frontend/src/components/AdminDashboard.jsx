@@ -92,12 +92,12 @@ const AdminDashboard = () => {
             timer: 4000,
             showConfirmButton: true,
           }).then(async () => {
-            await logout(); 
+            await logout();
           });
         } else {
           Swal.fire("Success", t("admin_privileges_removed"), "success").then(
             () => {
-              window.location.reload(); 
+              window.location.reload();
             }
           );
         }
@@ -162,131 +162,158 @@ const AdminDashboard = () => {
   };
 
   return (
-    <div
-      className={`min-h-screen ${
-        theme === "dark"
-          ? "bg-gray-900 text-gray-100"
-          : "bg-gray-100 text-gray-900"
-      } p-6`}
-    >
-      <h2
-        className={`text-4xl font-bold text-center mb-8 ${
-          theme === "dark" ? "text-white" : "text-gray-800"
-        }`}
-      >
-        {t("admin_dashboard")}
-      </h2>
-      <div className="overflow-x-auto">
-        <table
-          className={`min-w-full ${
-            theme === "dark" ? "bg-gray-800 text-white" : "bg-white text-black"
-          } shadow-lg rounded-lg overflow-hidden`}
-        >
-          <thead
-            className={`${theme === "dark" ? "bg-gray-700" : "bg-gray-200"}`}
-          >
-            <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
-                {t("email")}
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
-                {t("role")}
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
-                {t("status")}
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
-                {t("actions")}
-              </th>
-            </tr>
-          </thead>
-          <tbody
-            className={`${
-              theme === "dark"
-                ? "bg-gray-800 divide-gray-700"
-                : "bg-white divide-gray-200"
-            } divide-y`}
-          >
-            {users.map((user) => (
-              <tr key={user._id}>
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                  {user.email}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm">
-                  {user.role}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm">
-                  <span
-                    className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                      user.isActive
-                        ? "bg-green-100 text-green-800"
-                        : "bg-red-100 text-red-800"
-                    }`}
+    <div className={`min-h-screen p-6 transition-colors duration-300 ${
+      theme === "dark" 
+        ? "bg-gray-900 text-gray-100" 
+        : "bg-gray-50 text-gray-900"
+    }`}>
+      <div className="max-w-7xl mx-auto">
+        <h2 className={`text-5xl font-bold text-center mb-12 bg-clip-text text-transparent bg-gradient-to-r ${
+          theme === "dark" 
+            ? "from-purple-400 to-blue-400" 
+            : "from-purple-600 to-blue-600"
+        }`}>
+          {t("admin_dashboard")}
+        </h2>
+
+        <div className={`rounded-2xl shadow-xl overflow-hidden ${
+          theme === "dark" 
+            ? "bg-gray-800" 
+            : "bg-white"
+        }`}>
+          <div className={`px-6 py-4 ${
+            theme === "dark" 
+              ? "bg-gray-700" 
+              : "bg-gray-50"
+          }`}>
+            <div className="flex items-center justify-between">
+              <span className="font-semibold">{t("total_users")}: {users.length}</span>
+              <div className="flex items-center space-x-2 text-sm">
+                <span className="w-2 h-2 rounded-full bg-green-500"></span>
+                <span>{users.filter(u => u.isActive).length} {t("active")}</span>
+                <span className="w-2 h-2 rounded-full bg-red-500"></span>
+                <span>{users.filter(u => !u.isActive).length} {t("blocked")}</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead className={`${
+                theme === "dark" 
+                  ? "bg-gray-700/50" 
+                  : "bg-gray-50"
+              }`}>
+                <tr>
+                  {["email", "role", "status", "actions"].map((header) => (
+                    <th
+                      key={header}
+                      className="px-6 py-4 text-left text-sm font-semibold tracking-wide"
+                    >
+                      {t(header)}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody className="divide-y">
+                {users.map((user) => (
+                  <tr 
+                    key={user._id}
+                    className={`transition-all duration-200 hover:${theme === "dark" 
+                      ? "bg-gray-700/30" 
+                      : "bg-gray-50"}`}
                   >
-                    {user.isActive ? t("active") : t("blocked")}
-                  </span>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                  <div className="flex justify-around space-x-4">
-                    {user.role === "user" ? (
-                      <button
-                        onClick={() => handleMakeAdmin(user._id)}
-                        className="bg-green-500 hover:bg-green-600 text-white px-3 py-2 rounded-lg flex items-center justify-center transition duration-300"
-                      >
-                        <FaUserPlus />
-                        <span className="ml-2">{t("make_admin")}</span>
-                      </button>
-                    ) : (
-                      <>
-                        <button
-                          onClick={() => handleRemoveAdmin(user._id)}
-                          className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-2 rounded-lg flex items-center justify-center transition duration-300"
-                        >
-                          <FaUserMinus />
-                          <span className="ml-2">{t("remove_admin")}</span>
-                        </button>
-                        {user._id === currentUser.uid && (
+                    <td className="px-6 py-4 whitespace-nowrap text-sm">
+                      <div className="flex items-center">
+                        <div className={`w-2 h-2 rounded-full mr-3 ${
+                          user.isActive ? "bg-green-500" : "bg-red-500"
+                        }`}></div>
+                        {user.email}
+                      </div>
+                    </td>
+                    
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
+                        user.role === "admin"
+                          ? "bg-purple-100 text-purple-800 dark:bg-purple-800/30 dark:text-purple-300"
+                          : "bg-blue-100 text-blue-800 dark:bg-blue-800/30 dark:text-blue-300"
+                      }`}>
+                        {user.role}
+                      </span>
+                    </td>
+
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm ${
+                        user.isActive
+                          ? "bg-green-100 text-green-800 dark:bg-green-800/30 dark:text-green-300"
+                          : "bg-red-100 text-red-800 dark:bg-red-800/30 dark:text-red-300"
+                      }`}>
+                        {user.isActive ? t("active") : t("blocked")}
+                      </span>
+                    </td>
+
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="flex items-center space-x-2">
+                        {user.role === "user" ? (
+                          <button
+                            onClick={() => handleMakeAdmin(user._id)}
+                            className={`p-2 rounded-lg hover:bg-green-500/10 text-green-500 transition-all tooltip`}
+                            data-tip={t("make_admin")}
+                          >
+                            <FaUserPlus className="w-5 h-5" />
+                          </button>
+                        ) : (
                           <button
                             onClick={() => handleRemoveAdmin(user._id)}
-                            className="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-lg flex items-center justify-center transition duration-300"
+                            className={`p-2 rounded-lg hover:bg-purple-500/10 text-purple-500 transition-all tooltip`}
+                            data-tip={t("remove_admin")}
                           >
-                            <FaTrash />
-                            <span className="ml-2">
-                              {t("remove_admin_privilege")}
-                            </span>
+                            <FaUserMinus className="w-5 h-5" />
                           </button>
                         )}
-                      </>
-                    )}
-                    <button
-                      onClick={() =>
-                        handleStatusToggle(user._id, !user.isActive)
-                      }
-                      className={`${
-                        user.isActive
-                          ? "bg-orange-500 hover:bg-orange-700"
-                          : "bg-green-500 hover:bg-green-600"
-                      } text-white px-3 py-2 rounded-lg flex items-center justify-center transition duration-300`}
-                    >
-                      {user.isActive ? <FaLock /> : <FaUnlock />}
-                      <span className="ml-2">
-                        {user.isActive ? t("block") : t("unblock")}
-                      </span>
-                    </button>
-                    <button
-                      onClick={() => handleDeleteUser(user._id)}
-                      className="bg-red-500 hover:bg-red-800 text-white px-3 py-2 rounded-lg flex items-center justify-center transition duration-300"
-                    >
-                      <FaTrash />
 
-                      <span className="ml-2">{t("delete")}</span>
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                        <button
+                          onClick={() => handleStatusToggle(user._id, !user.isActive)}
+                          className={`p-2 rounded-lg ${
+                            user.isActive 
+                              ? "hover:bg-orange-500/10 text-orange-500" 
+                              : "hover:bg-green-500/10 text-green-500"
+                          } transition-all tooltip`}
+                          data-tip={user.isActive ? t("block") : t("unblock")}
+                        >
+                          {user.isActive ? (
+                            <FaLock className="w-5 h-5" />
+                          ) : (
+                            <FaUnlock className="w-5 h-5" />
+                          )}
+                        </button>
+
+                        <button
+                          onClick={() => handleDeleteUser(user._id)}
+                          className={`p-2 rounded-lg hover:bg-red-500/10 text-red-500 transition-all tooltip`}
+                          data-tip={t("delete_user")}
+                        >
+                          <FaTrash className="w-5 h-5" />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {users.length === 0 && (
+            <div className={`p-12 text-center ${
+              theme === "dark" 
+                ? "text-gray-400" 
+                : "text-gray-500"
+            }`}>
+              <FaUserMinus className="mx-auto h-12 w-12 mb-4" />
+              {t("no_users_found")}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
